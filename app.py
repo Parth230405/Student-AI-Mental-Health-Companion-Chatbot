@@ -1,33 +1,29 @@
 
 import streamlit as st
-from utils import get_sentiment, detect_crisis, build_prompt, load_tips, log_conversation
-from ai_client import AIClient
+import google.generativeai as genai
+import os
 
-st.set_page_config(page_title='Student AI — Mental Health Companion', layout='centered')
-st.title('🧠 Student AI — Mental Health Companion Chatbot')
-st.markdown('**Disclaimer:** This is a supportive companion, not a substitute for professional help.')
+# Set page config
+st.set_page_config(page_title="Student AI Mental Health Companion")
 
-user_input = st.text_input("How are you feeling today?", placeholder="Type your thoughts here...")
+st.title("🧠 Student AI Mental Health Companion Chatbot")
+st.write("Talk freely. I'm here to support you ❤️")
 
-if user_input:
-    sentiment = get_sentiment(user_input)
-    crisis = detect_crisis(user_input)
-    if crisis:
-        st.error("⚠️ Crisis language detected. Please reach out to emergency helpline or counselor.")
-        st.info("Helpline: https://findahelpline.com | India: Dial 112")
+# Add your Gemini API key here
+GEMINI_API_KEY = "PASTE_YOUR_GEMINI_API_KEY_HERE"
 
-    prompt = build_prompt(user_input, sentiment)
-    with st.spinner("Thinking..."):
-        try:
-            client = AIClient()
-            reply = client.chat(prompt)
-        except Exception as e:
-            reply = f"Error: {e}"
+# Configure Gemini
+genai.configure(api_key=GEMINI_API_KEY)
 
-    st.subheader("💬 Chatbot Reply:")
-    st.write(reply)
-    log_conversation(user_input, reply, sentiment)
+model = genai.GenerativeModel("gemini-pro")
 
-st.sidebar.title("Tips & Exercises")
-for t in load_tips():
-    st.sidebar.write("- " + t)
+# Initialize chat history
+if "chat" not in st.session_state:
+    st.session_state.chat = model.start_chat(history=[])
+
+# User input
+user_input = st.text_input("You:")
+
+if st.button("Send") and user_input:
+    response = st.session_state.chat.send_message(user_input)
+    st.write("🤖 AI:", response.text)
