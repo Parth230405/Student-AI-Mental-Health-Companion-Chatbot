@@ -1,27 +1,22 @@
 
 import streamlit as st
 import google.generativeai as genai
-import os
 
-# Set page config
 st.set_page_config(page_title="Student AI Mental Health Companion")
 
 st.title("🧠 Student AI Mental Health Companion Chatbot")
 st.write("Talk freely. I'm here to support you ❤️")
 
-# Add your Gemini API key here
-GEMINI_API_KEY = "AIzaSyDJVSE06pV8Q284DVINKZ09TZBX8tVokek"
+# Use your Gemini API key
+genai.configure(api_key="AIzaSyBozIGtICjU7ytovYo9RQGUZ0UZJcPR6yE")
 
-# Configure Gemini
-genai.configure(api_key=GEMINI_API_KEY)
+# Use latest working free model
+model = genai.GenerativeModel("gemini-1.5-flash")
 
-model = genai.GenerativeModel("gemini-pro")
-
-# Initialize chat history
+# Chat session
 if "chat" not in st.session_state:
     st.session_state.chat = model.start_chat(history=[])
 
-# User input
 user_input = st.text_input("You:", key="user_input")
 
 if st.button("Send", key="send_button"):
