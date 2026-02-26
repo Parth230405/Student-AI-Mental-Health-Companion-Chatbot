@@ -22,8 +22,6 @@ if "chat" not in st.session_state:
     st.session_state.chat = model.start_chat(history=[])
 
 # User input
-user_input = st.text_input("You:")
-
 user_input = st.text_input("You:", key="user_input")
 
 if st.button("Send", key="send_button"):
