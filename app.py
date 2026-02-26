@@ -24,10 +24,12 @@ if "chat" not in st.session_state:
 # User input
 user_input = st.text_input("You:")
 
-if st.button("Send") and user_input:
-  if st.button("Send") and user_input:
-    try:
-        response = st.session_state.chat.send_message(user_input)
-        st.write("🤖 AI:", response.text)
-    except Exception as e:
-        st.error(f"Actual Error: {e}")
+user_input = st.text_input("You:", key="user_input")
+
+if st.button("Send", key="send_button"):
+    if user_input:
+        try:
+            response = st.session_state.chat.send_message(user_input)
+            st.write("🤖 AI:", response.text)
+        except Exception as e:
+            st.error(f"Actual Error: {e}")
