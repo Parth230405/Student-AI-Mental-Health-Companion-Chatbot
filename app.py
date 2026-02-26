@@ -10,7 +10,7 @@ st.title("🧠 Student AI Mental Health Companion Chatbot")
 st.write("Talk freely. I'm here to support you ❤️")
 
 # Add your Gemini API key here
-GEMINI_API_KEY = "AIzaSyA3BfnrveotNuUzE1xRse8wpaGc6LNWclU"
+GEMINI_API_KEY = "AIzaSyDgRJsh6E65tl_MqUm3SJE_Pkm9_gV7mP8"
 
 # Configure Gemini
 genai.configure(api_key=GEMINI_API_KEY)
